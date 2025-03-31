@@ -1,4 +1,3 @@
-// Quiz questions
 const questions = [
     {
         text: "What is 2 + 2?",
@@ -20,6 +19,9 @@ const questions = [
 let currentQuestion = 0;
 let score = 0;
 let answers = []; // To store user answers
+
+// Log initial state
+console.log("Quiz started. Total questions:", questions.length);
 
 // Load the first question
 loadQuestion();
@@ -46,6 +48,10 @@ function loadQuestion() {
     });
 
     document.getElementById('score').textContent = `Score: ${score}/${questions.length}`;
+
+    // Log the current question being loaded
+    console.log(`Question ${currentQuestion + 1}:`, q.text);
+    console.log("Options:", q.options);
 }
 
 function submitAnswer() {
@@ -63,6 +69,11 @@ function submitAnswer() {
         correctAnswer: correctAnswer,
         isCorrect: userAnswer === correctAnswer
     });
+
+    // Log the user's answer and whether it was correct
+    console.log("User answer:", userAnswer);
+    console.log("Correct answer:", correctAnswer);
+    console.log("Was it correct?", userAnswer === correctAnswer);
 
     if (userAnswer === correctAnswer) {
         score++;
@@ -87,5 +98,28 @@ function endQuiz() {
             ${answer.isCorrect ? '✅' : '❌'}</p>
         `;
     });
+    resultHTML += `<button onclick="restartQuiz()">Restart Quiz</button>`;
     resultsDiv.innerHTML = resultHTML;
+
+    // Log the final results
+    console.log("Quiz ended. Final score:", `${score}/${questions.length}`);
+    console.log("All answers:", answers);
+}
+
+// New restart function
+function restartQuiz() {
+    // Reset all variables
+    currentQuestion = 0;
+    score = 0;
+    answers = [];
+
+    // Hide results and show quiz container
+    document.getElementById('results').style.display = 'none';
+    document.querySelector('.quiz-container').style.display = 'block';
+
+    // Load first question
+    loadQuestion();
+
+    // Log restart
+    console.log("Quiz restarted. Total questions:", questions.length);
 }
